@@ -1,34 +1,14 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Alert,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 
-const ContactScreen = () => {
+const ContactScreen = ({ setScreen }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
   const handleSubmit = () => {
-    if (!name || !email || !message) {
-      Alert.alert('Incomplete Form', 'Please fill out all fields.');
-      return;
-    }
-
-    const formData = {
-      name,
-      email,
-      message,
-    };
-
-    // Print form data to console
-    console.log('User Submitted:', formData);
-
-    Alert.alert('Success', 'Your message has been sent!');
+    console.log('Form Data:', { name, email, message });
+    Alert.alert('Submitted', 'Your message has been sent!');
     setName('');
     setEmail('');
     setMessage('');
@@ -54,57 +34,65 @@ const ContactScreen = () => {
       />
 
       <TextInput
-        style={[styles.input, styles.textArea]}
+        style={[styles.input, styles.messageBox]}
         placeholder="Your Message"
         value={message}
         onChangeText={setMessage}
         multiline
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Send Message</Text>
-      </TouchableOpacity>
+      <Button title="Submit" onPress={handleSubmit} color="#6200ee" />
+
+      <View style={styles.navButtons}>
+        <TouchableOpacity onPress={() => setScreen('Home')} style={styles.navButton}>
+          <Text style={styles.navText}>Go to Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setScreen('Products')} style={styles.navButton}>
+          <Text style={styles.navText}>Go to Products</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    padding: 16,
+    backgroundColor: '#fff',
     flex: 1,
-    padding: 20,
-    backgroundColor: '#F5F7FA',
-    justifyContent: 'center',
   },
   title: {
-    fontSize: 26,
+    fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 24,
-    textAlign: 'center',
+    marginBottom: 20,
   },
   input: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 14,
-    fontSize: 16,
-    marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#aaa',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 16,
+    fontSize: 16,
   },
-  textArea: {
-    height: 120,
+  messageBox: {
+    height: 100,
     textAlignVertical: 'top',
   },
-  button: {
-    backgroundColor: '#6200EE',
-    padding: 14,
-    borderRadius: 10,
-    alignItems: 'center',
-    elevation: 3,
+  navButtons: {
+  
+    marginTop: 30,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
-  buttonText: {
-    color: '#fff',
+  navButton: {
+    backgroundColor: '#e0e0e0',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  navText: {
     fontSize: 16,
-    fontWeight: '600',
+    color: '#000',
   },
 });
 
